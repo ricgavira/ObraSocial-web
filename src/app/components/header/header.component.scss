@@ -2,4 +2,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+    margin-right: 2%;
+    margin-left: 5%;
+
+    section {
+        h1 {
+            font-family: "Roboto", sans-serif;
+            font-size: 36px;
+            font-weight: 500;
+        }    
+    }
 }
