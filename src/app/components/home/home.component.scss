@@ -1,0 +1,55 @@
+.main-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Roboto", sans-serif;
+
+    h1 {
+        font-size: 56px;
+        font-weight: 500;
+    }
+}
+
+.card-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 4px;
+    margin-top: 15px;
+    font-family: "Roboto", sans-serif;
+
+    mat-card {
+        width: 700px;
+        background-color: #f7f3f2;    
+    }
+
+    mat-card-title {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    mat-card-subtitle {
+        text-align: justify;
+        padding-top: 10px;
+        padding-right: 10px;
+    }
+
+    mat-divider {
+        width: 700px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    img {
+        padding-left: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+@media (min-width: 1080px) {
+    .main-section {
+        flex-direction: row;
+    }
+}
