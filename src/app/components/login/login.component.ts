@@ -1,4 +1,4 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +9,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { LoginService } from '../../services/login.service';
 import { ILogin } from '../../services/interfaces/ILogin';
 import Swal from 'sweetalert2';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -42,21 +42,21 @@ export class LoginComponent {
     this.loading.set(true);
     if(this.loginForm.valid)
     {
-      let payload: ILogin = this.loginForm.value;
+      const payload: ILogin = this.loginForm.value;
 
       this.loginService.login(payload).subscribe({
         next: (response) => {
-          console.log('antes: ' + JSON.stringify(response));
-
-          if (response.token != "Login inválido!") {
+          if (response.token !== 'Login inválido!') {
             Swal.fire({
               title: 'Sucesso!',
               text: 'Login realizado com sucesso!',
               icon: 'success',
-              timer: 1500
-            }).then((response) => {
+              timer: 2000,
+              showConfirmButton: false
+            }).then(() => {              
+                localStorage.setItem('token', response.token);
                 this.loginForm.reset();
-                this.loading.set(false);
+                this.loading.set(false);                
                 this.router.navigate(['home']);
             });
           }
@@ -65,14 +65,23 @@ export class LoginComponent {
               title: 'Erro!',
               text: response.token,
               icon: 'error',
-              timer: 1500
-            }).then((response) => {
+              timer: 2000,
+              showConfirmButton: false
+            }).then(() => {
               this.loading.set(false);
             });
           }
         },
         error: (response) => {
-          this.loading.set(false);
+          Swal.fire({
+            title: 'Erro!',
+            text: response.token,
+            icon: 'error',
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() => {
+            this.loading.set(false);
+          });
         }
       })
     } else {

@@ -1,6 +1,18 @@
 <header class="app-header">
+    <mat-card-actions>
+        <button mat-icon-button
+                title="Home" 
+                (click)="onHome()">
+            <mat-icon>home</mat-icon>
+        </button>
+        <button mat-icon-button
+                title="" 
+                (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </mat-card-actions>
     <section>
         <h1>Obras Sociais Francisco Thiesen</h1>
     </section>
-    <img ngSrc="./assets/logo.png" priority width="180" height="133" />
+    <img ngSrc="./assets/logoTiny.png" priority width="127" height="100" alt="Logo da Obra Social" />
 </header>
