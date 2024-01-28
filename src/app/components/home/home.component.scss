@@ -1,36 +1,6 @@
-.card-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 4px;
-    margin-top: 15px;
-    font-family: "Roboto", sans-serif;
+@import "../../../style/settings/wrapper.scss";
 
-    mat-card {
-        width: 700px;
-        background-color: #f7f3f2;    
-    }
-
-    mat-card-title {
-        font-size: 22px;
-        font-weight: 500;
-    }
-
-    mat-card-subtitle {
-        text-align: justify;
-        padding-top: 10px;
-        padding-right: 10px;
-    }
-
-    mat-divider {
-        width: 700px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    img {
-        padding-left: 10px;
-        padding-bottom: 10px;
-    }
+.os-home {
+    max-width: $os-main-wrapper;
+    margin: 0 auto;
 }

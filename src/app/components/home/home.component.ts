@@ -1,24 +1,42 @@
 import { Component, OnInit } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
-import { NgOptimizedImage } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { Router } from '@angular/router';
+import { MainComponent } from '../main/main.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgOptimizedImage, MatCardModule, MatDividerModule, HeaderComponent],
+  imports: [
+    RouterOutlet,
+    RouterModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatBadgeModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonModule,
+    MainComponent,
+    HeaderComponent    
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
 
   constructor(private router: Router){}
+
   ngOnInit(): void {
     if (typeof localStorage !== 'undefined') {
       if (localStorage.length !== 0) {
-        console.log('gavira token: ' + localStorage.getItem('token'));
+        //console.log('gavira token: ' + localStorage.getItem('token'));
       }
       else {
         localStorage.clear();

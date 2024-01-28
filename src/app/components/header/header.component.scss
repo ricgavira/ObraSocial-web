@@ -1,10 +1,15 @@
-.app-header {
+.os-header {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: row;
-    margin-right: 2%;
-    margin-left: 5%;
+
+    header {
+        display: inherit;
+        align-items: inherit;
+        flex-direction: inherit;
+        height: inherit;
+        width: inherit;
+    }
 
     section {
         padding-left: 15px;
@@ -14,4 +19,9 @@
             font-weight: 500;
         }    
     }
+}
+
+.buttonLogout {
+    text-align: right;
+    margin-left: auto;
 }

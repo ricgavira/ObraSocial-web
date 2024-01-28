@@ -1,3 +1,4 @@
+import { Router, RouterOutlet } from '@angular/router';
 import { Component, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +10,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { LoginService } from '../../services/login.service';
 import { ILogin } from '../../services/interfaces/ILogin';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,9 @@ import { Router } from '@angular/router';
             MatButtonModule,
             MatIconModule,
             NgOptimizedImage, 
-            ReactiveFormsModule],
+            ReactiveFormsModule,
+            RouterOutlet
+          ],
   providers: [
     LoginService
   ],
@@ -33,8 +35,8 @@ export class LoginComponent {
 
   constructor(private loginService: LoginService, private router: Router) {
     this.loginForm = new FormGroup({
-      login: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+      login: new FormControl('ricgavira@gmail.com', [Validators.required, Validators.email]),
+      password: new FormControl('123456', [Validators.required])
     });
   }
 
@@ -53,10 +55,11 @@ export class LoginComponent {
               icon: 'success',
               timer: 2000,
               showConfirmButton: false
-            }).then(() => {              
+            }).then(() => {
+                localStorage.clear;
                 localStorage.setItem('token', response.token);
                 this.loginForm.reset();
-                this.loading.set(false);                
+                this.loading.set(false);
                 this.router.navigate(['home']);
             });
           }

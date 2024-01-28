@@ -1,18 +1,28 @@
-<header class="app-header">
-    <mat-card-actions>
-        <button mat-icon-button
-                title="Home" 
-                (click)="onHome()">
-            <mat-icon>home</mat-icon>
+<div class="os-header mat-elevation-z8">
+    <mat-toolbar color="primary">
+        <button (click)="onDrawer()" mat-icon-button>
+            <mat-icon fontIcon="menu"></mat-icon>
         </button>
-        <button mat-icon-button
-                title="" 
-                (click)="onLogout()">
-            <mat-icon>logout</mat-icon>
-        </button>
-    </mat-card-actions>
-    <section>
-        <h1>Obras Sociais Francisco Thiesen</h1>
-    </section>
-    <img ngSrc="./assets/logoTiny.png" priority width="127" height="100" alt="Logo da Obra Social" />
-</header>
+
+        <header>
+            <button mat-icon-button
+                    title="Home"
+                    [routerLink]="[{outlets: {outletHome: 'main' }}]">
+                <mat-icon>home</mat-icon>
+            </button>
+            <section>
+                <h1>Obras Sociais Francisco Thiesen</h1>
+            </section>
+            
+            <img ngSrc="./assets/logoTiny.png" priority width="85" height="64" alt="Logo da Obra Social" />
+
+            <div class="buttonLogout">
+                <button mat-icon-button                
+                        title="Sair"            
+                        (click)="onLogout()">
+                    <mat-icon>logout</mat-icon>
+                </button>
+            </div>
+        </header>
+    </mat-toolbar>
+</div>
