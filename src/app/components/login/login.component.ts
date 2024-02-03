@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgOptimizedImage } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { ILogin } from '../../services/interfaces/ILogin';
 import Swal from 'sweetalert2';
@@ -33,10 +33,10 @@ export class LoginComponent {
   loginForm!: FormGroup;
   loading = signal(false);
 
-  constructor(private loginService: LoginService, private router: Router) {
-    this.loginForm = new FormGroup({
-      login: new FormControl('ricgavira@gmail.com', [Validators.required, Validators.email]),
-      password: new FormControl('123456', [Validators.required])
+  constructor(private loginService: LoginService, private router: Router, private formBuilder: FormBuilder) {
+    this.loginForm = this.formBuilder.group({
+      login: ['ricgavira@gmail.com', [Validators.required, Validators.email]],
+      password: ['123456', [Validators.required]]
     });
   }
 

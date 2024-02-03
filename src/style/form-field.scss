@@ -1,0 +1,32 @@
+.os-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .os-field-unico {
+        width: 100%;
+    }
+
+    .os-fields-laterais {
+        display: flex;
+        gap: 10px;
+        padding-bottom: 10px;
+        
+        .os-field-lateral {
+            flex: 1;
+        }
+    }    
+}
+
+.os-actions {
+    justify-content: center;
+    gap: 10px;
+
+    button {
+        font-size: 16px;
+        font-weight: 500;
+        padding-block: 10px;
+        padding-inline: 10px;
+        cursor: pointer;        
+    }
+}

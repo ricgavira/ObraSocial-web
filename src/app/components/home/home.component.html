@@ -9,9 +9,9 @@
                 <mat-list-item>
                     <button mat-button [matMenuTriggerFor]="mniCadastro"><mat-icon>how_to_reg</mat-icon>Cadastro</button>
                     <mat-menu #mniCadastro="matMenu" xPosition="after">
-                        <button mat-menu-item>
+                        <button mat-menu-item [routerLink]="[{outlets: {outletHome: 'pessoafisica' }}]">
                             <mat-icon>arrow_right</mat-icon>
-                            Pessoa
+                            Pessoa Física
                         </button>
                         <button mat-menu-item>
                             <mat-icon>arrow_right</mat-icon>

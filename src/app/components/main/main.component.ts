@@ -3,7 +3,6 @@ import { HeaderComponent } from '../header/header.component';
 import { NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { MenubarComponent } from '../menubar/menubar.component';
 
 @Component({
   selector: 'app-main',
@@ -12,8 +11,7 @@ import { MenubarComponent } from '../menubar/menubar.component';
     NgOptimizedImage, 
     MatCardModule, 
     MatDividerModule, 
-    HeaderComponent,
-    MenubarComponent
+    HeaderComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'

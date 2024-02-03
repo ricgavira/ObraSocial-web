@@ -1,0 +1,99 @@
+<mat-card>
+    <mat-card-title-group>
+        <mat-card-title class="os-pf-title">Cadastro de Pessoa Física</mat-card-title>
+    </mat-card-title-group>
+    <mat-card-content>
+        <form [formGroup]="pessoaFisicaForm" class="os-form">
+            <div class="os-fields-laterais">
+                <os-field-required class="os-field-lateral"
+                                   [osPlaceholder]="'Digite o nome da pessoa'" 
+                                   [osFormGroup]="pessoaFisicaForm"
+                                   [osControl]="pessoaFisicaForm.get('nome')"
+                                   [osFieldName]="'nome'"
+                                   [osLabel]="'Nome'">
+                </os-field-required>
+
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>CPF</mat-label>
+                    <input matInput placeholder="Digite o CPF" formControlName="cpf" />
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>RG</mat-label>
+                    <input matInput placeholder="Digite o RG" formControlName="rg" />
+                </mat-form-field>
+            </div>
+            <div class="os-fields-laterais">
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Data de Nascimento</mat-label>
+                    <input matInput [matDatepicker]="dtNascimento" placeholder="Digite a data de nascimento" formControlName="dataNascimento" />
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="dtNascimento"></mat-datepicker-toggle>
+                    <mat-datepicker #dtNascimento></mat-datepicker>
+                    @if (isInvalid('nome', 'required')) {
+                        <mat-error>Campo obrigatório!</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Nome da Mãe</mat-label>
+                    <input matInput placeholder="Digite o nome da mãe" formControlName="nomeDaMae" />
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Nome do Pai</mat-label>
+                    <input matInput placeholder="Digite o nome do pai" formControlName="nomeDoPai" />
+                </mat-form-field>
+            </div>
+            <div class="os-fields-laterais">
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Nacionalidade</mat-label>
+                    <input matInput placeholder="Digite a Nacionalidade" formControlName="nacionalidade" />
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Naturalidade</mat-label>
+                    <input matInput placeholder="Digite a Naturalidade" formControlName="naturalidade" />
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Raça</mat-label>
+                    <mat-select formControlName="raca">
+                        @for (raca of racas; track raca) {
+                            <mat-option [value]="raca">{{ raca }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Sexo</mat-label>
+                    <mat-select formControlName="sexo">
+                        <mat-option value="Masculino">Masculino</mat-option>
+                        <mat-option value="Feminino">Feminino</mat-option>
+                        <mat-option value="Outro">Outro</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="os-field-lateral">
+                    <mat-label>Classificação</mat-label>
+                    <mat-select formControlName="classificacao">
+                        @for (valor of classificacoes; track valor) {
+                            <mat-option [value]="valor">{{ valor }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <mat-card-actions class="os-actions">
+                <button mat-raised-button 
+                    title="Gravar" 
+                    (click)="onSubmit()">
+                    <mat-icon color="blue">save</mat-icon>
+                    @if(!gravando()){
+                        Gravar
+                    }@else {
+                        Aguarde...
+                    }
+                </button>
+                <button mat-raised-button 
+                    title="Cancelar"
+                    (click)="onCancel()">
+                    <mat-icon>backspace</mat-icon>
+                    Cancelar
+                </button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
+</mat-card>
