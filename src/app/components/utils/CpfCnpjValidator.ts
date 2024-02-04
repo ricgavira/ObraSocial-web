@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, Validator } from "@angular/forms";
+import { AbstractControl, FormControl, ValidationErrors, Validator } from "@angular/forms";
 
 export class CpfCnpjValidator implements Validator {
     static cpfLength = 11;
@@ -52,11 +52,11 @@ export class CpfCnpjValidator implements Validator {
         return null;
     }
 
-    validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    validate(control: AbstractControl<FormControl, FormControl>): ValidationErrors | null {
         return CpfCnpjValidator.validate(control);
     }
 
-    registerOnValidatorChange?(fn: () => void): void {
+    registerOnValidatorChange?(): void {
         throw new Error("Method not implemented.");
     }
 

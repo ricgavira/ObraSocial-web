@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl } from "@angular/forms";
 
 export class Validacoes {
 
@@ -16,8 +16,8 @@ export class Validacoes {
   }
 
   static SenhasCombinam(formControl: AbstractControl) {
-    let senha = formControl.get('senha')?.value ?? "";
-    let confirmarSenha = formControl.get('confirmarSenha')?.value ?? "";
+    const senha = formControl.get('senha')?.value ?? "";
+    const confirmarSenha = formControl.get('confirmarSenha')?.value ?? "";
 
     if (senha === confirmarSenha) return null;
     

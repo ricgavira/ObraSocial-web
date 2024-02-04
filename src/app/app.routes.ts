@@ -39,6 +39,11 @@ export const routes: Routes = [
                 outlet: 'outletHome'
             },
             {
+                path: 'pessoafisicacadastrar/:id',
+                component: PessoaFisicaCadastrarComponent,
+                outlet: 'outletHome'
+            },
+            {
                 path: 'pessoajuridica',
                 component: PessoaJuridicaComponent,
                 outlet: 'outletHome'

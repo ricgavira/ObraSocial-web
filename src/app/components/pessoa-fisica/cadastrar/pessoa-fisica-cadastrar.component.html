@@ -1,13 +1,20 @@
 <mat-card>
     <mat-card-title-group>
-        <mat-card-title class="os-pf-title">Cadastro de Pessoa Física</mat-card-title>
+        <mat-card-title class="os-pf-title">
+            @if(alterando){
+                Alterando Pessoa Física
+            }
+            @else {
+                Cadastro de Pessoa Física
+            }
+        </mat-card-title>
     </mat-card-title-group>
     <mat-card-content>
         <form [formGroup]="pessoaFisicaForm" class="os-form">
             <div class="os-fields-laterais">
                 <mat-form-field class="os-field-lateral">
                     <mat-label>Nome</mat-label>
-                    <input matInput placeholder="Digite o nome da pessoa" formControlName="nome" />
+                    <input matInput placeholder="Digite o nome da pessoa" formControlName="nome" autofocus />
                     @if (!FieldValid("nome", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }

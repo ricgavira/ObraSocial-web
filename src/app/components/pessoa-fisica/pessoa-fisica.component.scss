@@ -1,0 +1,35 @@
+.os-width-full {
+    width: 100%;
+}
+
+.os-rows {
+    height: 30px;
+}
+
+.os-actions {
+    justify-content: center;
+    gap: 10px;
+    margin: 10px auto;
+    padding-bottom: 15px;
+}
+
+.mat-column-codigo {
+    width: 8%;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+}
+
+.mat-column-nome {
+    padding-left: 16px;
+    width: 35%;
+}
+  
+.mat-column-dt-nascimento {
+    text-align: center;
+    width: 22%;
+}
+  
+.mat-column-nome-mae {
+    width: 35%;
+}
