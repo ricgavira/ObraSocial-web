@@ -1,7 +1,7 @@
 <div class="mat-elevation-z8">
     <mat-form-field class="os-width-full">
         <mat-label>Filtro por nome</mat-label>
-        <input matInput autofocus (keyup)="applyFilter($event)" placeholder="Nome" #input>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Nome" #input>
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" class="os-width-full">
