@@ -15,7 +15,7 @@
                 <mat-form-field class="os-field-lateral">
                     <mat-label>Nome</mat-label>
                     <input matInput placeholder="Digite o nome da pessoa" formControlName="nome" />
-                    @if (!FieldValid("nome", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "nome", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
@@ -27,7 +27,7 @@
                                     maxlength="14" 
                                     minlength="11"
                                     mask="000.000.000-00" />
-                    @if (!FieldValid("cpf", ["required", "invalido"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "cpf", ["required", "invalido"])) {
                         <mat-error>CPF Inválido!</mat-error>
                     }
                 </mat-form-field>
@@ -38,7 +38,7 @@
                                     formControlName="rg" 
                                     maxlength="10"
                                     mask="0*" />
-                    @if (!FieldValid("rg", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "rg", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
@@ -52,21 +52,21 @@
                     <mat-hint>DD/MM/YYYY</mat-hint>                    
                     <mat-datepicker-toggle matIconSuffix matSuffix [for]="dtNascimento"></mat-datepicker-toggle>
                     <mat-datepicker #dtNascimento></mat-datepicker>
-                    @if (!FieldValid("dataNascimento", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "dataNascimento", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
                 <mat-form-field class="os-field-lateral">
                     <mat-label>Nome da Mãe</mat-label>
                     <input matInput placeholder="Digite o nome da mãe" formControlName="nomeDaMae" />
-                    @if (!FieldValid("nomeDaMae", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "nomeDaMae", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
                 <mat-form-field class="os-field-lateral">
                     <mat-label>Nome do Pai</mat-label>
                     <input matInput placeholder="Digite o nome do pai" formControlName="nomeDoPai" />
-                    @if (!FieldValid("nomeDoPai", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "nomeDoPai", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
@@ -75,14 +75,14 @@
                 <mat-form-field class="os-field-lateral">
                     <mat-label>Nacionalidade</mat-label>
                     <input matInput placeholder="Digite a Nacionalidade" formControlName="nacionalidade" />
-                    @if (!FieldValid("nacionalidade", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "nacionalidade", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
                 <mat-form-field class="os-field-lateral">
                     <mat-label>Naturalidade</mat-label>
                     <input matInput placeholder="Digite a Naturalidade" formControlName="naturalidade" />
-                    @if (!FieldValid("naturalidade", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "naturalidade", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
@@ -93,7 +93,7 @@
                             <mat-option [value]="raca.id">{{ raca.name }}</mat-option>
                         }
                     </mat-select>
-                    @if (!FieldValid("raca", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "raca", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
@@ -104,7 +104,7 @@
                         <mat-option [value]="1">Masculino</mat-option>
                         <mat-option [value]="2">Outro</mat-option>
                     </mat-select>
-                    @if (!FieldValid("sexo", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "sexo", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>
@@ -115,7 +115,7 @@
                             <mat-option [value]="valor.id">{{ valor.name }}</mat-option>
                         }
                     </mat-select>
-                    @if (!FieldValid("classificacao", ["required"])) {
+                    @if (!helpers.FieldValid(pessoaFisicaForm, "classificacao", ["required"])) {
                         <mat-error>Campo obrigatório!</mat-error>
                     }
                 </mat-form-field>

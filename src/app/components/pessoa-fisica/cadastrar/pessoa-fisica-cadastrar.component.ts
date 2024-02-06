@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import { CpfCnpjValidator } from '../../utils/CpfCnpjValidator';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { Helpers } from '../../utils/helpers';
 
 export const OS_DATE_FORMATS = {
   parse: {
@@ -76,6 +77,8 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
 
   public id: string = '';
   public alterando: boolean = false;
+
+  public helpers = Helpers;
 
   constructor(private router: Router, 
               private route: ActivatedRoute, 
@@ -183,18 +186,6 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['home', { outlets: { outletHome: ['pessoafisica']}}]);
-  }
-
-  public FieldValid(inputName: string, validatorsName: string[]): boolean {    
-    let valido: boolean = true;
-
-    if (this.pessoaFisicaForm.get(inputName) != null) {
-      validatorsName.forEach(validator => {        
-        valido = valido && (!(this.pessoaFisicaForm.get(inputName)!.hasError(validator)) && this.pessoaFisicaForm.get(inputName)!.touched);
-      });
-    }
-
-    return valido;
   }
 
   public onOpenCam(): void {
