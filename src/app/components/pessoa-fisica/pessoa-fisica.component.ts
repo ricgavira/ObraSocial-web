@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { PessoaFisica } from './pessoa-fisica.model';
+import { IPessoaFisica } from './interface/IPessoaFisica';
 import { PessoaFisicaService } from './pessoa-fisica.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,13 +31,13 @@ export class PessoaFisicaComponent implements AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   
   public colunas: string[] = ['codigo', 'nome', 'dt-nascimento', 'nome-mae', 'acoes'];
-  public dataSource: MatTableDataSource<PessoaFisica> = new MatTableDataSource<PessoaFisica>();
+  public dataSource: MatTableDataSource<IPessoaFisica> = new MatTableDataSource<IPessoaFisica>();
 
   constructor(private service: PessoaFisicaService, private router: Router) {}
 
   ngAfterViewInit(): void {
     this.service.obterTodosSimples().subscribe((response) => {
-      this.dataSource = new MatTableDataSource<PessoaFisica>(response);
+      this.dataSource = new MatTableDataSource<IPessoaFisica>(response);
       this.dataSource.paginator = this.paginator;
       this.paginator._intl.itemsPerPageLabel = 'Itens por página';
       this.paginator._intl.firstPageLabel = 'Primeira página';

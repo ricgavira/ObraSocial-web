@@ -14,11 +14,12 @@ import { Observable, Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
 import { Contato } from '../../contato/contato.model';
 import { Endereco } from '../../endereco/endereco.model';
-import { PessoaFisica } from '../pessoa-fisica.model';
+import { IPessoaFisica } from '../interface/IPessoaFisica';
 import { PessoaFisicaService } from '../pessoa-fisica.service';
 import Swal from 'sweetalert2';
 import { CpfCnpjValidator } from '../../utils/CpfCnpjValidator';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 export const OS_DATE_FORMATS = {
   parse: {
@@ -45,11 +46,14 @@ export const OS_DATE_FORMATS = {
     ReactiveFormsModule,
     WebcamModule,
     MatNativeDateModule,
-    MomentDateModule
+    MomentDateModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pr-BR' },
-    { provide: MAT_DATE_FORMATS, useValue: OS_DATE_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: OS_DATE_FORMATS },
+    provideNgxMask()
   ],
   templateUrl: './pessoa-fisica-cadastrar.component.html',
   styleUrl: './pessoa-fisica-cadastrar.component.scss'
@@ -64,7 +68,6 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
   public errors: WebcamInitError[] = [];
   public multipleWebcamsAvailable = false;
   public dataImage: string = '';
-  private base64Image: string = '';
   public webcamImage!: WebcamImage;
   private trigger: Subject<void> = new Subject<void>();
 
@@ -77,15 +80,25 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
   constructor(private router: Router, 
               private route: ActivatedRoute, 
               private formBuilder: FormBuilder, 
-              private service: PessoaFisicaService) {
-
-                const pf = new PessoaFisica();
-                pf.nacionalidade = 'Brasileira';
-
-                this.populaForm(pf);
-              }
+              private service: PessoaFisicaService) {}
 
   ngOnInit(): void {
+    this.pessoaFisicaForm = this.formBuilder.group({
+      id: [0],
+      nome: ['', [Validators.required]],
+      cpf: ['', [Validators.required, CpfCnpjValidator.validate]],
+      rg: ['', [Validators.required, Validators.maxLength(10)]],
+      nomeDaMae: ['', [Validators.required]],
+      nomeDoPai: ['', [Validators.required]],
+      dataNascimento: [null, [Validators.required]],
+      foto: [null],
+      raca: [null, [Validators.required]],
+      nacionalidade: ['', [Validators.required]],
+      naturalidade: ['', [Validators.required]],
+      sexo: [null, [Validators.required]],
+      classificacao: [null, [Validators.required]]
+    });
+
     this.id = this.route.snapshot.paramMap.get('id') ?? '0';
     this.alterando = this.id != null && parseInt(this.id) > 0;
 
@@ -102,37 +115,36 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
     }
     
     if (this.alterando) {
-      this.service.obterPorId(this.id).subscribe((response) => {
-        this.populaForm(response);
+      this.service.obterPorId(this.id).subscribe((pessoaFisica) => {
+        this.populaForm(pessoaFisica);
       });
     }
   }
 
-  public populaForm(pessoaFisica: PessoaFisica) {
-    this.pessoaFisicaForm = this.formBuilder.group({
-      id: [pessoaFisica.id],
-      nome: [pessoaFisica.nome, [Validators.required]],
-      cpf: [pessoaFisica.cpf, [Validators.required, CpfCnpjValidator.validate]],
-      rg: [pessoaFisica.rg, [Validators.required, Validators.maxLength(10)]],
-      nomeDaMae: [pessoaFisica.nomeDaMae, [Validators.required]],
-      nomeDoPai: [pessoaFisica.nomeDoPai, [Validators.required]],
-      dataNascimento: [pessoaFisica.dataNascimento, [Validators.required]],
-      foto: [pessoaFisica.foto],
-      raca: [pessoaFisica.raca, [Validators.required]],
-      nacionalidade: [pessoaFisica.nacionalidade, [Validators.required]],
-      naturalidade: [pessoaFisica.naturalidade, [Validators.required]],
-      sexo: [pessoaFisica.sexo, [Validators.required]],
-      classificacao: [pessoaFisica.classificacao, [Validators.required]]
+  public populaForm(pessoaFisica: IPessoaFisica) {
+    this.pessoaFisicaForm.patchValue({
+      id: pessoaFisica.id,
+      nome: pessoaFisica.nome,
+      cpf: pessoaFisica.cpf,
+      rg: pessoaFisica.rg,
+      nomeDaMae: pessoaFisica.nomeDaMae,
+      nomeDoPai: pessoaFisica.nomeDoPai,
+      dataNascimento: pessoaFisica.dataNascimento,
+      foto: pessoaFisica.foto,
+      raca: pessoaFisica.raca,
+      nacionalidade: pessoaFisica.nacionalidade,
+      naturalidade: pessoaFisica.naturalidade,
+      sexo: pessoaFisica.sexo,
+      classificacao: pessoaFisica.classificacao
     });
-    
+
     this.dataImage = pessoaFisica.foto !== undefined && pessoaFisica.foto !== '' ? `data:image/jpeg;base64,${pessoaFisica.foto}` : '';
   }
 
   onSubmit() {
     this.gravando.set(true);
     if (this.pessoaFisicaForm.valid){
-      const pessoaFisicaModel = this.BuildModel();
-      this.service.gravar(pessoaFisicaModel, this.alterando).subscribe({
+      this.service.gravar(this.pessoaFisicaForm.value, this.alterando).subscribe({
         next: () => {
             Swal.fire({
               title: 'Sucesso!',
@@ -158,28 +170,15 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
     }
     else {
       this.pessoaFisicaForm.markAllAsTouched();
+      this.gravando.set(false);
+      Swal.fire({
+        title: 'Atenção!',
+        text: 'Favor conferir o preenchimento de todos os campos!',
+        icon: 'warning',
+        timer: 2000,
+        showConfirmButton: false
+      });      
     }
-  }
-
-  private BuildModel(): PessoaFisica {
-    const modelo = new PessoaFisica();
-    modelo.id = this.pessoaFisicaForm.get('id')?.value;
-    modelo.nome = this.pessoaFisicaForm.get('nome')?.value;
-    modelo.cpf = this.pessoaFisicaForm.get('cpf')?.value;
-    modelo.rg = this.pessoaFisicaForm.get('rg')?.value;
-    modelo.nomeDaMae = this.pessoaFisicaForm.get('nomeDaMae')?.value;
-    modelo.nomeDoPai = this.pessoaFisicaForm.get('nomeDoPai')?.value;
-    modelo.raca = this.pessoaFisicaForm.get('raca')?.value;
-    modelo.sexo = this.pessoaFisicaForm.get('sexo')?.value;
-    modelo.classificacao = this.pessoaFisicaForm.get('classificacao')?.value;
-    modelo.naturalidade = this.pessoaFisicaForm.get('naturalidade')?.value;
-    modelo.nacionalidade = this.pessoaFisicaForm.get('nacionalidade')?.value;
-    modelo.dataNascimento = this.pessoaFisicaForm.get('dataNascimento')?.value;
-    modelo.foto = this.base64Image;
-    modelo.contatosDto = this.contatos;
-    modelo.enderecosDto = this.enderecos;
-
-    return modelo;
   }
 
   onCancel() {
@@ -212,6 +211,7 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
   public onLimparFoto(): void {
     this.showWebcam = false;
     this.dataImage = '';
+    this.pessoaFisicaForm.get('foto')?.setValue(null);
   }
 
   public imagemExiste(): boolean {
@@ -225,7 +225,7 @@ export class PessoaFisicaCadastrarComponent implements OnInit {
   public handleImage(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.dataImage = webcamImage.imageAsDataUrl;
-    this.base64Image = webcamImage.imageAsBase64;    
+    this.pessoaFisicaForm.get('foto')?.setValue(webcamImage.imageAsBase64);
     this.showWebcam = !this.imagemExiste();
   }
 
