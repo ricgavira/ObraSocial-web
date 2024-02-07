@@ -1,188 +1,190 @@
-<mat-card>
-    <mat-card-title-group>
-        <mat-card-title class="os-pf-title">
-            @if(alterando){
-                Alterando Pessoa Física
-            }
-            @else {
-                Cadastro de Pessoa Física
-            }
-        </mat-card-title>
-    </mat-card-title-group>
-    <mat-card-content>
-        <form [formGroup]="pessoaFisicaForm" (submit)="onSubmit()" class="os-form">
-            <div class="os-fields-laterais">
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Nome</mat-label>
-                    <input matInput placeholder="Digite o nome da pessoa" formControlName="nome" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "nome", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>CPF</mat-label>
-                    <input matInput placeholder="Digite o CPF" 
-                                    formControlName="cpf" 
-                                    maxlength="14" 
-                                    minlength="11"
-                                    mask="000.000.000-00" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "cpf", ["required", "invalido"])) {
-                        <mat-error>CPF Inválido!</mat-error>
-                    }
-                </mat-form-field>
-
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>RG</mat-label>
-                    <input matInput placeholder="Digite o RG" 
-                                    formControlName="rg" 
-                                    maxlength="10"
-                                    mask="0*" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "rg", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-            </div>
-            <div class="os-fields-laterais">
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Data de Nascimento</mat-label>
-                    <input matInput [matDatepicker]="dtNascimento"
-                           placeholder="Digite a data de nascimento" 
-                           formControlName="dataNascimento"/>
-                    <mat-hint>DD/MM/YYYY</mat-hint>                    
-                    <mat-datepicker-toggle matIconSuffix matSuffix [for]="dtNascimento"></mat-datepicker-toggle>
-                    <mat-datepicker #dtNascimento></mat-datepicker>
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "dataNascimento", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Nome da Mãe</mat-label>
-                    <input matInput placeholder="Digite o nome da mãe" formControlName="nomeDaMae" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "nomeDaMae", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Nome do Pai</mat-label>
-                    <input matInput placeholder="Digite o nome do pai" formControlName="nomeDoPai" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "nomeDoPai", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-            </div>
-            <div class="os-fields-laterais">
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Nacionalidade</mat-label>
-                    <input matInput placeholder="Digite a Nacionalidade" formControlName="nacionalidade" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "nacionalidade", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Naturalidade</mat-label>
-                    <input matInput placeholder="Digite a Naturalidade" formControlName="naturalidade" />
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "naturalidade", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Raça</mat-label>
-                    <mat-select formControlName="raca">
-                        @for (raca of racas; track raca) {
-                            <mat-option [value]="raca.id">{{ raca.name }}</mat-option>
-                        }
-                    </mat-select>
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "raca", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Sexo</mat-label>
-                    <mat-select formControlName="sexo">
-                        <mat-option [value]="0">Feminino</mat-option>
-                        <mat-option [value]="1">Masculino</mat-option>
-                        <mat-option [value]="2">Outro</mat-option>
-                    </mat-select>
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "sexo", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-                <mat-form-field class="os-field-lateral">
-                    <mat-label>Classificação</mat-label>
-                    <mat-select formControlName="classificacao">
-                        @for (valor of classificacoes; track valor) {
-                            <mat-option [value]="valor.id">{{ valor.name }}</mat-option>
-                        }
-                    </mat-select>
-                    @if (!helpers.FieldValid(pessoaFisicaForm, "classificacao", ["required"])) {
-                        <mat-error>Campo obrigatório!</mat-error>
-                    }
-                </mat-form-field>
-            </div>
-            <mat-divider></mat-divider>
-            <div class="divCam">
-                @if(showWebcam) {
-                    <webcam class="os-cam"
-                        [height]="300" 
-                        [width]="300" 
-                        [trigger]="triggerObservable" 
-                        (imageCapture)="handleImage($event)"
-                        [videoOptions]="videoOptions"
-                        [imageQuality]="1"
-                        (initError)="handleInitError($event)">
-                    </webcam>
+<div class="mat-elevation-z8">
+    <mat-card>
+        <mat-card-title-group>
+            <mat-card-title class="os-pf-title">
+                @if(alterando){
+                    Alterando Pessoa Física
                 }
-                @if(imagemExiste()) {
-                    <div class="os-cam">
-                        <img [src]="dataImage" width="300" height="168" alt="Imagem da Câmera">
-                    </div>
+                @else {
+                    Cadastro de Pessoa Física
                 }
-                <button mat-raised-button type="button"
-                    class="btnCamera"
-                    title="Abrir Câmera"
-                    (click)="onOpenCam()">
-                    <mat-icon>center_focus_strong</mat-icon>
-                    @if(!showWebcam) {
-                        Abrir Câmera
+            </mat-card-title>
+        </mat-card-title-group>
+        <mat-card-content>
+            <form [formGroup]="pessoaFisicaForm" (submit)="onSubmit()" class="os-form">
+                <div class="os-fields-laterais">
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Nome</mat-label>
+                        <input matInput placeholder="Digite o nome da pessoa" formControlName="nome" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "nome", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>CPF</mat-label>
+                        <input matInput placeholder="Digite o CPF" 
+                                        formControlName="cpf" 
+                                        maxlength="14" 
+                                        minlength="11"
+                                        mask="000.000.000-00" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "cpf", ["required", "invalido"])) {
+                            <mat-error>CPF Inválido!</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>RG</mat-label>
+                        <input matInput placeholder="Digite o RG" 
+                                        formControlName="rg" 
+                                        maxlength="10"
+                                        mask="0*" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "rg", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="os-fields-laterais">
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Data de Nascimento</mat-label>
+                        <input matInput [matDatepicker]="dtNascimento"
+                            placeholder="Digite a data de nascimento" 
+                            formControlName="dataNascimento"/>
+                        <mat-hint>DD/MM/YYYY</mat-hint>                    
+                        <mat-datepicker-toggle matIconSuffix matSuffix [for]="dtNascimento"></mat-datepicker-toggle>
+                        <mat-datepicker #dtNascimento></mat-datepicker>
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "dataNascimento", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Nome da Mãe</mat-label>
+                        <input matInput placeholder="Digite o nome da mãe" formControlName="nomeDaMae" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "nomeDaMae", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Nome do Pai</mat-label>
+                        <input matInput placeholder="Digite o nome do pai" formControlName="nomeDoPai" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "nomeDoPai", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <div class="os-fields-laterais">
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Nacionalidade</mat-label>
+                        <input matInput placeholder="Digite a Nacionalidade" formControlName="nacionalidade" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "nacionalidade", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Naturalidade</mat-label>
+                        <input matInput placeholder="Digite a Naturalidade" formControlName="naturalidade" />
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "naturalidade", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Raça</mat-label>
+                        <mat-select formControlName="raca">
+                            @for (raca of racas; track raca) {
+                                <mat-option [value]="raca.id">{{ raca.name }}</mat-option>
+                            }
+                        </mat-select>
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "raca", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Sexo</mat-label>
+                        <mat-select formControlName="sexo">
+                            <mat-option [value]="0">Feminino</mat-option>
+                            <mat-option [value]="1">Masculino</mat-option>
+                            <mat-option [value]="2">Outro</mat-option>
+                        </mat-select>
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "sexo", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="os-field-lateral">
+                        <mat-label>Classificação</mat-label>
+                        <mat-select formControlName="classificacao">
+                            @for (valor of classificacoes; track valor) {
+                                <mat-option [value]="valor.id">{{ valor.name }}</mat-option>
+                            }
+                        </mat-select>
+                        @if (!helpers.FieldValid(pessoaFisicaForm, "classificacao", ["required"])) {
+                            <mat-error>Campo obrigatório!</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="divCam">
+                    @if(showWebcam) {
+                        <webcam class="os-cam"
+                            [height]="300" 
+                            [width]="300" 
+                            [trigger]="triggerObservable" 
+                            (imageCapture)="handleImage($event)"
+                            [videoOptions]="videoOptions"
+                            [imageQuality]="1"
+                            (initError)="handleInitError($event)">
+                        </webcam>
                     }
-                    @else {
-                        Fechar Câmera
+                    @if(imagemExiste()) {
+                        <div class="os-cam">
+                            <img [src]="dataImage" width="300" height="168" alt="Imagem da Câmera">
+                        </div>
                     }
-                </button>
-                <button mat-raised-button type="button" 
-                    class="btnCamera"
-                    title="Capturar Foto"
-                    (click)="onCapture()">
-                    <mat-icon>photo_camera</mat-icon>
-                    Capturar Foto
-                </button>
-                <button mat-raised-button type="button" class="btnCamera"
-                    title="Limpar Foto"
-                    (click)="onLimparFoto()">
-                    <mat-icon>no_photography</mat-icon>
-                    Limpar Foto
-                </button>
-            </div>
-            <mat-divider></mat-divider>
-            <mat-card-actions class="os-actions">
-                <button mat-raised-button
-                    title="Gravar">
-                    <mat-icon>save</mat-icon>
-                    @if(!gravando()){
-                        Gravar
-                    }@else {
-                        Aguarde...
-                    }
-                </button>
-                <button mat-raised-button 
-                    type="button"
-                    title="Cancelar"
-                    (click)="onCancel()">
-                    <mat-icon>backspace</mat-icon>
-                    Cancelar
-                </button>
-            </mat-card-actions>
-        </form>
-    </mat-card-content>
-</mat-card>
+                    <button mat-raised-button type="button"
+                        class="btnCamera"
+                        title="Abrir Câmera"
+                        (click)="onOpenCam()">
+                        <mat-icon>center_focus_strong</mat-icon>
+                        @if(!showWebcam) {
+                            Abrir Câmera
+                        }
+                        @else {
+                            Fechar Câmera
+                        }
+                    </button>
+                    <button mat-raised-button type="button" 
+                        class="btnCamera"
+                        title="Capturar Foto"
+                        (click)="onCapture()">
+                        <mat-icon>photo_camera</mat-icon>
+                        Capturar Foto
+                    </button>
+                    <button mat-raised-button type="button" class="btnCamera"
+                        title="Limpar Foto"
+                        (click)="onLimparFoto()">
+                        <mat-icon>no_photography</mat-icon>
+                        Limpar Foto
+                    </button>
+                </div>
+                <mat-divider></mat-divider>
+                <mat-card-actions class="os-actions">
+                    <button mat-raised-button
+                        title="Gravar">
+                        <mat-icon>save</mat-icon>
+                        @if(!gravando()){
+                            Gravar
+                        }@else {
+                            Aguarde...
+                        }
+                    </button>
+                    <button mat-raised-button 
+                        type="button"
+                        title="Cancelar"
+                        (click)="onCancel()">
+                        <mat-icon>backspace</mat-icon>
+                        Cancelar
+                    </button>
+                </mat-card-actions>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
